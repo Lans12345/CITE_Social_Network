@@ -1,8 +1,8 @@
-import 'package:expandable_text/expandable_text.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:monetization_system/presentation/screens/home_tab.dart';
 import 'package:monetization_system/presentation/screens/notif_tab.dart';
+import 'package:monetization_system/presentation/screens/post_status.dart';
 import 'package:monetization_system/presentation/screens/profile_tab.dart';
 import 'package:monetization_system/presentation/widgets/search_bar_widget.dart';
 import 'package:monetization_system/presentation/widgets/text_widget.dart';
@@ -118,7 +118,10 @@ class _HomePageState extends State<HomePage> {
             Icons.edit,
             color: Colors.white,
           ),
-          onPressed: () {}),
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const PostStatus()));
+          }),
     );
   }
 }

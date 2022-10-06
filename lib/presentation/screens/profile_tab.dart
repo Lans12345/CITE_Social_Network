@@ -12,10 +12,44 @@ class ProfileTab extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Container(
-              color: Colors.black,
-              height: 150,
-              width: double.infinity,
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return SizedBox(
+                        height: 200,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListTile(
+                              trailing: const Icon(Icons.upload),
+                              onTap: () {},
+                              leading: TextRegular(
+                                  text: 'Upload Photo',
+                                  fontSize: 16,
+                                  color: Colors.black),
+                            ),
+                            const Divider(),
+                            ListTile(
+                              trailing: const Icon(Icons.image),
+                              onTap: () {},
+                              leading: TextRegular(
+                                  text: 'View Profile Picture',
+                                  fontSize: 16,
+                                  color: Colors.black),
+                            ),
+                            const Divider(),
+                          ],
+                        ),
+                      );
+                    });
+              },
+              child: Container(
+                color: Colors.black,
+                height: 150,
+                width: double.infinity,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 90, left: 20, bottom: 10),
@@ -24,11 +58,46 @@ class ProfileTab extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CircleAvatar(
-                        minRadius: 60,
-                        maxRadius: 60,
-                        backgroundImage:
-                            AssetImage('assets/images/profile.png'),
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return SizedBox(
+                                  height: 200,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ListTile(
+                                        trailing: const Icon(Icons.upload),
+                                        onTap: () {},
+                                        leading: TextRegular(
+                                            text: 'Upload Photo',
+                                            fontSize: 16,
+                                            color: Colors.black),
+                                      ),
+                                      const Divider(),
+                                      ListTile(
+                                        trailing: const Icon(Icons.image),
+                                        onTap: () {},
+                                        leading: TextRegular(
+                                            text: 'View Cover Photo',
+                                            fontSize: 16,
+                                            color: Colors.black),
+                                      ),
+                                      const Divider(),
+                                    ],
+                                  ),
+                                );
+                              });
+                        },
+                        child: const CircleAvatar(
+                          minRadius: 60,
+                          maxRadius: 60,
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
+                        ),
                       ),
                       const SizedBox(
                         height: 10,
@@ -106,12 +175,41 @@ class ProfileTab extends StatelessWidget {
                                         fontSize: 18,
                                         color: Colors.grey),
                                     const SizedBox(
-                                      width: 100,
+                                      width: 60,
                                     ),
                                     TextBold(
                                         text: '28/03/2022',
                                         fontSize: 12,
                                         color: Colors.grey),
+                                    IconButton(
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return SizedBox(
+                                                height: 100,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    ListTile(
+                                                      trailing: const Icon(
+                                                          Icons.delete),
+                                                      onTap: () {},
+                                                      leading: TextRegular(
+                                                          text: 'Delete Post',
+                                                          fontSize: 16,
+                                                          color: Colors.black),
+                                                    ),
+                                                    const Divider(),
+                                                  ],
+                                                ),
+                                              );
+                                            });
+                                      },
+                                      icon:
+                                          const Icon(Icons.more_vert_outlined),
+                                    ),
                                   ],
                                 ),
                                 TextBold(
