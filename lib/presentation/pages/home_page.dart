@@ -1,5 +1,6 @@
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:monetization_system/presentation/auth/login_page.dart';
 import 'package:monetization_system/presentation/screens/home_tab.dart';
 import 'package:monetization_system/presentation/screens/notif_tab.dart';
 import 'package:monetization_system/presentation/screens/post_status.dart';
@@ -59,9 +60,9 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 FlatButton(
                                   onPressed: () {
-                                    // Navigator.of(context).pushReplacement(
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) => LogInPage()));
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) => LoginPage()));
                                   },
                                   child: const Text(
                                     'Continue',

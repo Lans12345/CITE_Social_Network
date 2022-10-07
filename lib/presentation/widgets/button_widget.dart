@@ -14,17 +14,17 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(100),
       ),
       color: Colors.blue,
       onPressed: onPressed,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(80, 15, 80, 15),
+        padding: const EdgeInsets.fromLTRB(100, 15, 100, 15),
         child: Text(
           text,
           style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 14,
+              fontSize: 18,
               color: Colors.white,
               fontFamily: 'QRegular'),
         ),
