@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:monetization_system/presentation/auth/signup_page.dart';
 import 'package:monetization_system/presentation/pages/home_page.dart';
 import 'package:monetization_system/presentation/widgets/button_widget.dart';
 import 'package:monetization_system/presentation/widgets/text_widget.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
 
   late String email;
   late String password;
+
+  final box = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -158,9 +162,36 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                   ),
                   ButtonWidget(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => HomePage()));
+                      onPressed: () async {
+                        try {
+                          await FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                                  email: email, password: password);
+                          box.write('email', email);
+
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        } catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    content: TextRegular(
+                                        text: "$e",
+                                        color: Colors.black,
+                                        fontSize: 12),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: TextBold(
+                                            text: 'Close',
+                                            color: Colors.black,
+                                            fontSize: 12),
+                                      ),
+                                    ],
+                                  ));
+                        }
                       },
                       text: 'Log in'),
                   const SizedBox(

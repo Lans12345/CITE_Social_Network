@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "840691669714",
+    "project_id": "cite-network-social-media",
+    "storage_bucket": "cite-network-social-media.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840691669714:android:5ee1984dfe565b7a516b0b",
+        "android_client_info": {
+          "package_name": "com.example.monetization_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840691669714-kfcp8la4nu4qsnh4btn6sn4fj5usg3bd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKC20Sw603x-8OT0f9GkUrEIjhBINIhf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840691669714-kfcp8la4nu4qsnh4btn6sn4fj5usg3bd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

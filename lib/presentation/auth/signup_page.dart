@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:monetization_system/presentation/auth/signup2_page.dart';
 import 'package:monetization_system/presentation/widgets/button_widget.dart';
 import 'package:monetization_system/presentation/widgets/text_widget.dart';
+import 'package:get_storage/get_storage.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final box = GetStorage();
   var dropDownValue = 1;
 
   var productCategory = 'Multimedia Systems';
@@ -81,6 +83,7 @@ class _SignupPageState extends State<SignupPage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                     child: TextFormField(
+                      textCapitalization: TextCapitalization.words,
                       style: const TextStyle(
                           color: Colors.black, fontFamily: 'Quicksand'),
                       onChanged: (_nput) {
@@ -222,6 +225,9 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   ButtonWidget(
                       onPressed: () {
+                        box.write('name', fullname);
+                        box.write('email', email);
+                        box.write('type', productCategory);
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => SignupPage2()));
                       },

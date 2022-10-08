@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:monetization_system/data/services/cloud_functions/create_account.dart';
 import 'package:monetization_system/presentation/auth/login_page.dart';
 import 'package:monetization_system/presentation/widgets/button_widget.dart';
 import 'package:monetization_system/presentation/widgets/text_widget.dart';
+import 'package:get_storage/get_storage.dart';
 
 class SignupPage2 extends StatefulWidget {
   @override
@@ -9,6 +12,7 @@ class SignupPage2 extends StatefulWidget {
 }
 
 class _SignupPage2State extends State<SignupPage2> {
+  final box = GetStorage();
   var _obscure1 = true;
   var _obscure = true;
 
@@ -125,7 +129,7 @@ class _SignupPage2State extends State<SignupPage2> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                     child: TextFormField(
-                      obscureText: _obscure,
+                      obscureText: _obscure1,
                       style: const TextStyle(
                           color: Colors.black, fontFamily: 'Quicksand'),
                       onChanged: (_nput) {
@@ -187,7 +191,143 @@ class _SignupPage2State extends State<SignupPage2> {
                   ),
                   Visibility(
                     visible: _value,
-                    child: ButtonWidget(onPressed: () {}, text: 'Sign up'),
+                    child: ButtonWidget(
+                        onPressed: () async {
+                          if (password != confirmPassword) {
+                            showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) => AlertDialog(
+                                      title: const Text(
+                                        'Cannot Procceed',
+                                        style: TextStyle(
+                                            fontFamily: 'QBold',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      content: const Text(
+                                        'Password do not match',
+                                        style:
+                                            TextStyle(fontFamily: 'QRegular'),
+                                      ),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text(
+                                            'Close',
+                                            style: TextStyle(
+                                                fontFamily: 'QRegular',
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ],
+                                    ));
+                          } else if (password.length < 5) {
+                            showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) => AlertDialog(
+                                      title: const Text(
+                                        'Cannot Procceed',
+                                        style: TextStyle(
+                                            fontFamily: 'QBold',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      content: const Text(
+                                        'Password too short',
+                                        style:
+                                            TextStyle(fontFamily: 'QRegular'),
+                                      ),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text(
+                                            'Close',
+                                            style: TextStyle(
+                                                fontFamily: 'QRegular',
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ],
+                                    ));
+                          } else {
+                            try {
+                              await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                      email: box.read('email'),
+                                      password: password);
+
+                              createAccount(
+                                  password,
+                                  box.read('name'),
+                                  box.read('email'),
+                                  box.read('type'),
+                                  'https://cdn-icons-png.flaticon.com/512/149/149071.png');
+
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => AlertDialog(
+                                        title: const Text(
+                                          'Signed up Succesfully!',
+                                          style: TextStyle(
+                                              fontFamily: 'QBold',
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        content: const Text(
+                                          'Login your credentials',
+                                          style:
+                                              TextStyle(fontFamily: 'QRegular'),
+                                        ),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              LoginPage()));
+                                            },
+                                            child: const Text(
+                                              'Continue',
+                                              style: TextStyle(
+                                                  fontFamily: 'QRegular',
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ));
+                            } catch (e) {
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => AlertDialog(
+                                        content: Text(
+                                          e.toString(),
+                                          style: const TextStyle(
+                                              fontFamily: 'QRegular'),
+                                        ),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text(
+                                              'Close',
+                                              style: TextStyle(
+                                                  fontFamily: 'QRegular',
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ));
+                            }
+                          }
+                        },
+                        text: 'Sign up'),
                   ),
                   const SizedBox(
                     height: 10,
