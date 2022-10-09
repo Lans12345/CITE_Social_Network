@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:monetization_system/presentation/pages/searched_profile_page.dart';
 import 'package:monetization_system/presentation/widgets/text_widget.dart';
+import 'package:get_storage/get_storage.dart';
 
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
+  final box = GetStorage();
   late String query = '';
   late String result = '';
   @override
@@ -88,6 +91,14 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                                   padding:
                                       const EdgeInsets.fromLTRB(10, 20, 10, 0),
                                   child: ListTile(
+                                      onTap: () {
+                                        box.write('searched_email',
+                                            data.docs[index]['email']);
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SearchedProfilePage()));
+                                      },
                                       leading: CircleAvatar(
                                         backgroundColor: Colors.white,
                                         maxRadius: 30,

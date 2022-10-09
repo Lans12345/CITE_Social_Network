@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:monetization_system/presentation/auth/login_page.dart';
+import 'package:monetization_system/presentation/pages/payment_page.dart';
 import 'package:monetization_system/presentation/screens/home_tab.dart';
 import 'package:monetization_system/presentation/screens/notif_tab.dart';
 import 'package:monetization_system/presentation/screens/post_status.dart';
@@ -132,13 +132,13 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context) => [
                         PopupMenuItem(
                           onTap: () async {
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //     builder: (context) => const Hotline()));
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //     builder: (context) => const Hotline()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const PaymentPage()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const PaymentPage()));
                           },
-                          child: TextRegular(
-                              text: 'Upgrade to Premium Account',
+                          child: TextBold(
+                              text: 'Purchase Points',
                               fontSize: 14,
                               color: Colors.black),
                           value: 1,
@@ -178,16 +178,24 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue,
-          child: const Icon(
-            Icons.edit,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const PostStatus()));
-          }),
+      floatingActionButton: selectedIndex == 1
+          ? const SizedBox()
+          : selectedIndex == 2
+              ? const SizedBox()
+              : FloatingActionButton(
+                  backgroundColor: Colors.blue,
+                  child: const Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const PostStatus(),
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }
