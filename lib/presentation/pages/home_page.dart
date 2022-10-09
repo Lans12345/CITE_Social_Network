@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   late String profilePicture = '';
+  late String subscription = '';
 
   late String query = '';
   getData() async {
@@ -46,6 +47,7 @@ class _HomePageState extends State<HomePage> {
           Map<String, dynamic> data = queryDocumentSnapshot.data();
 
           profilePicture = data['profilePicture'];
+          subscription = data['subscription'];
         }
       });
     }
@@ -133,10 +135,55 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context) => [
                         PopupMenuItem(
                           onTap: () async {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const PaymentPage()));
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const PaymentPage()));
+                            if (subscription != "Premium") {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const PaymentPage()));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const PaymentPage()));
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        content: const Text(
+                                          'No need to buy points. You are already in Premium Subscription',
+                                          style:
+                                              TextStyle(fontFamily: 'QRegular'),
+                                        ),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(true),
+                                            child: const Text(
+                                              'Close',
+                                              style: TextStyle(
+                                                  fontFamily: 'QRegular',
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ));
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        content: const Text(
+                                          'No need to buy points. You are already in Premium Subscription',
+                                          style:
+                                              TextStyle(fontFamily: 'QRegular'),
+                                        ),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(true),
+                                            child: const Text(
+                                              'Close',
+                                              style: TextStyle(
+                                                  fontFamily: 'QRegular',
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ));
+                            }
                           },
                           child: TextBold(
                               text: 'Purchase Points',
@@ -146,12 +193,57 @@ class _HomePageState extends State<HomePage> {
                         ),
                         PopupMenuItem(
                           onTap: () async {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    const PaymentPagePremium()));
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    const PaymentPagePremium()));
+                            if (subscription != "Premium") {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PaymentPagePremium()));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PaymentPagePremium()));
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        content: const Text(
+                                          'You are already in Premium Subscription',
+                                          style:
+                                              TextStyle(fontFamily: 'QRegular'),
+                                        ),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(true),
+                                            child: const Text(
+                                              'Close',
+                                              style: TextStyle(
+                                                  fontFamily: 'QRegular',
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ));
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        content: const Text(
+                                          'You are already in Premium Subscription',
+                                          style:
+                                              TextStyle(fontFamily: 'QRegular'),
+                                        ),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(true),
+                                            child: const Text(
+                                              'Close',
+                                              style: TextStyle(
+                                                  fontFamily: 'QRegular',
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ));
+                            }
                           },
                           child: TextBold(
                               text: 'Go Premium',

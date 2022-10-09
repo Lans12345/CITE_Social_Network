@@ -423,7 +423,10 @@ class _ProfileTabState extends State<ProfileTab> {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.star,
+                              Icon(
+                                  subscription == "Premium"
+                                      ? Icons.star
+                                      : Icons.star_half,
                                   color: subscription == 'Premium'
                                       ? Colors.amber
                                       : Colors.grey),

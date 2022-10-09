@@ -21,7 +21,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     return Stack(
       children: [
         FloatingSearchBar(
-          hint: 'Search',
+          hint: 'Search user',
           openAxisAlignment: 0.0,
           axisAlignment: 0.0,
           scrollPadding: const EdgeInsets.only(top: 16, bottom: 20),
