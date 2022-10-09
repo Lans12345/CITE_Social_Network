@@ -289,7 +289,7 @@ class _AdminHomeState extends State<AdminHome> {
                             IconButton(
                               onPressed: () {
                                 FirebaseFirestore.instance
-                                    .collection('Points')
+                                    .collection('Premium')
                                     .doc(data.docs[index].id)
                                     .delete();
                               },

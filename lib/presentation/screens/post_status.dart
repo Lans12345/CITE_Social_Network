@@ -291,6 +291,12 @@ class _PostStatusState extends State<PostStatus> {
                                     actions: <Widget>[
                                       FlatButton(
                                         onPressed: () {
+                                          FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .doc(id)
+                                              .update({
+                                            'points': points - 5,
+                                          });
                                           Navigator.of(context).pushReplacement(
                                               MaterialPageRoute(
                                                   builder: (context) =>
