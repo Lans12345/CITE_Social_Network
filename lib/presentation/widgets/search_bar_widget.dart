@@ -1,9 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:monetization_system/presentation/widgets/text_widget.dart';
 
-class SearchBarWidget extends StatelessWidget {
+class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({Key? key}) : super(key: key);
 
+  @override
+  State<SearchBarWidget> createState() => _SearchBarWidgetState();
+}
+
+class _SearchBarWidgetState extends State<SearchBarWidget> {
+  late String query = '';
+  late String result = '';
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -15,8 +24,8 @@ class SearchBarWidget extends StatelessWidget {
           scrollPadding: const EdgeInsets.only(top: 16, bottom: 20),
           elevation: 4.0,
           physics: const BouncingScrollPhysics(),
-          onQueryChanged: (query) {
-            //Your methods will be here
+          onQueryChanged: (_query) {
+            query = _query;
           },
           transitionCurve: Curves.easeInOut,
           transitionDuration: const Duration(milliseconds: 500),
@@ -24,16 +33,15 @@ class SearchBarWidget extends StatelessWidget {
           debounceDelay: const Duration(milliseconds: 500),
           actions: [
             FloatingSearchBarAction(
-              showIfOpened: false,
+              showIfOpened: true,
               child: CircularButton(
                 icon: const Icon(Icons.search),
                 onPressed: () {
-                  print('Places Pressed');
+                  setState(() {
+                    result = query;
+                  });
                 },
               ),
-            ),
-            FloatingSearchBarAction.searchToClear(
-              showIfClosed: false,
             ),
           ],
           builder: (context, transition) {
@@ -46,66 +54,54 @@ class SearchBarWidget extends StatelessWidget {
                   color: Colors.white,
                   child: SizedBox(
                     height: 200.0,
-                    child: ListView(
-                      children: const [
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                        ListTile(
-                          title: Text('Home'),
-                          subtitle: Text('more info here........'),
-                        ),
-                      ],
-                    ),
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('Users')
+                            .where('name', isEqualTo: result)
+                            .snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            print('error');
+                            return const Center(child: Text('Error'));
+                          }
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            print('waiting');
+                            return const Padding(
+                              padding: EdgeInsets.only(top: 50),
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                color: Colors.black,
+                              )),
+                            );
+                          }
+
+                          final data = snapshot.requireData;
+                          return ListView.separated(
+                              separatorBuilder: ((context, index) {
+                                return const Divider();
+                              }),
+                              itemCount: snapshot.data?.size ?? 0,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                                  child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        maxRadius: 30,
+                                        minRadius: 30,
+                                        backgroundImage: NetworkImage(
+                                            data.docs[index]['profilePicture']),
+                                      ),
+                                      title: TextBold(
+                                          text: data.docs[index]['name'],
+                                          fontSize: 18,
+                                          color: Colors.grey)),
+                                );
+                              });
+                        }),
                   ),
                 ),
               ),

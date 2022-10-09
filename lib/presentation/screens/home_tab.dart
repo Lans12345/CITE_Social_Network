@@ -54,9 +54,12 @@ class _HomeTabState extends State<HomeTab> {
                                     const EdgeInsets.only(left: 10, right: 10),
                                 child: Row(
                                   children: [
-                                    Image.network(
-                                      data.docs[index]['profilePicture'],
-                                      height: 60,
+                                    CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      minRadius: 30,
+                                      maxRadius: 30,
+                                      backgroundImage: NetworkImage(
+                                          data.docs[index]['profilePicture']),
                                     ),
                                     const SizedBox(
                                       width: 10,

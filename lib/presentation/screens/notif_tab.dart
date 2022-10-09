@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:monetization_system/presentation/widgets/text_widget.dart';
 
@@ -48,8 +49,57 @@ class NotifTab extends StatelessWidget {
                     },
                     itemBuilder: ((context, index) {
                       return ListTile(
-                        leading:
-                            Image.network(data.docs[index]['profilePicture']),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SingleChildScrollView(
+                                  child: AlertDialog(
+                                    content: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10,
+                                              right: 20,
+                                              top: 10,
+                                              bottom: 10),
+                                          child: ExpandableText(
+                                            data.docs[index]['caption'],
+                                            style: const TextStyle(
+                                              fontFamily: 'QRegular',
+                                            ),
+                                            expandText: 'show more',
+                                            collapseText: 'show less',
+                                            maxLines: 3,
+                                            linkColor: Colors.blue,
+                                          ),
+                                        ),
+                                        Image.network(
+                                            data.docs[index]['imageURL']),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: TextBold(
+                                            text: 'Close',
+                                            fontSize: 14,
+                                            color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                        },
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          minRadius: 30,
+                          maxRadius: 30,
+                          backgroundImage:
+                              NetworkImage(data.docs[index]['profilePicture']),
+                        ),
                         title: TextBold(
                             text: data.docs[index]['name'],
                             fontSize: 16,
