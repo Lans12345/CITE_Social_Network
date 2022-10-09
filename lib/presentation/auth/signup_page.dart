@@ -184,11 +184,11 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             DropdownMenuItem(
                               onTap: () {
-                                productCategory = "Appliances";
+                                productCategory = "Software Developer";
                               },
                               child: Center(
                                   child: Row(children: const [
-                                Text("Appliances",
+                                Text("Software Developer",
                                     style: TextStyle(
                                       fontFamily: 'Quicksand',
                                       color: Colors.black,
@@ -198,17 +198,45 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             DropdownMenuItem(
                               onTap: () {
-                                productCategory = "Clothes";
+                                productCategory = "Programmer";
                               },
                               child: Center(
                                   child: Row(children: const [
-                                Text("Clothes",
+                                Text("Programmer",
                                     style: TextStyle(
                                       fontFamily: 'Quicksand',
                                       color: Colors.black,
                                     ))
                               ])),
                               value: 3,
+                            ),
+                            DropdownMenuItem(
+                              onTap: () {
+                                productCategory = "Cyber Security";
+                              },
+                              child: Center(
+                                  child: Row(children: const [
+                                Text("Cyber Security",
+                                    style: TextStyle(
+                                      fontFamily: 'Quicksand',
+                                      color: Colors.black,
+                                    ))
+                              ])),
+                              value: 4,
+                            ),
+                            DropdownMenuItem(
+                              onTap: () {
+                                productCategory = "Quality Assurance";
+                              },
+                              child: Center(
+                                  child: Row(children: const [
+                                Text("Quality Assurance",
+                                    style: TextStyle(
+                                      fontFamily: 'Quicksand',
+                                      color: Colors.black,
+                                    ))
+                              ])),
+                              value: 5,
                             ),
                           ],
                           onChanged: (value) {

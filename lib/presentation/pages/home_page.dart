@@ -57,253 +57,268 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: TextBold(
-            text: 'CITE Social Network', fontSize: 18, color: Colors.grey),
-        elevation: 0.5,
-        backgroundColor: Colors.white,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundColor: Colors.white,
-            maxRadius: 30,
-            minRadius: 30,
-            backgroundImage: NetworkImage(profilePicture),
+    return RefreshIndicator(
+      onRefresh: (() {
+        return Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()));
+      }),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: TextBold(
+              text: 'CITE Social Network', fontSize: 18, color: Colors.grey),
+          elevation: 0.5,
+          backgroundColor: Colors.white,
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              maxRadius: 30,
+              minRadius: 30,
+              backgroundImage: NetworkImage(profilePicture),
+            ),
           ),
-        ),
-        actions: [
-          selectedIndex == 3
-              ? IconButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                              title: const Text(
-                                'Logout Confirmation',
-                                style: TextStyle(
-                                    fontFamily: 'QBold',
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              content: const Text(
-                                'Are you sure you want to Logout?',
-                                style: TextStyle(fontFamily: 'QRegular'),
-                              ),
-                              actions: <Widget>[
-                                FlatButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).pop(true),
-                                  child: const Text(
-                                    'Close',
-                                    style: TextStyle(
-                                        fontFamily: 'QRegular',
-                                        fontWeight: FontWeight.bold),
-                                  ),
+          actions: [
+            selectedIndex == 3
+                ? IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: const Text(
+                                  'Logout Confirmation',
+                                  style: TextStyle(
+                                      fontFamily: 'QBold',
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                FlatButton(
-                                  onPressed: () async {
-                                    await FirebaseAuth.instance.signOut();
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) => LoginPage()));
-                                  },
-                                  child: const Text(
-                                    'Continue',
-                                    style: TextStyle(
-                                        fontFamily: 'QRegular',
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                content: const Text(
+                                  'Are you sure you want to Logout?',
+                                  style: TextStyle(fontFamily: 'QRegular'),
                                 ),
-                              ],
-                            ));
-                  },
-                  icon: const Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Icon(
-                      Icons.logout,
-                      color: Colors.grey,
+                                actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(true),
+                                    child: const Text(
+                                      'Close',
+                                      style: TextStyle(
+                                          fontFamily: 'QRegular',
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () async {
+                                      await FirebaseAuth.instance.signOut();
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginPage()));
+                                    },
+                                    child: const Text(
+                                      'Continue',
+                                      style: TextStyle(
+                                          fontFamily: 'QRegular',
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ));
+                    },
+                    icon: const Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Icon(
+                        Icons.logout,
+                        color: Colors.grey,
+                      ),
                     ),
-                  ),
-                )
-              : const SizedBox(),
-          selectedIndex == 3
-              ? PopupMenuButton(
-                  iconSize: 25,
-                  icon:
-                      const Icon(Icons.more_vert_outlined, color: Colors.grey),
-                  itemBuilder: (context) => [
-                        PopupMenuItem(
-                          onTap: () async {
-                            if (subscription != "Premium") {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const PaymentPage()));
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const PaymentPage()));
-                            } else {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                        content: const Text(
-                                          'No need to buy points. You are already in Premium Subscription',
-                                          style:
-                                              TextStyle(fontFamily: 'QRegular'),
-                                        ),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(true),
-                                            child: const Text(
-                                              'Close',
-                                              style: TextStyle(
-                                                  fontFamily: 'QRegular',
-                                                  fontWeight: FontWeight.bold),
-                                            ),
+                  )
+                : const SizedBox(),
+            selectedIndex == 3
+                ? PopupMenuButton(
+                    iconSize: 25,
+                    icon: const Icon(Icons.more_vert_outlined,
+                        color: Colors.grey),
+                    itemBuilder: (context) => [
+                          PopupMenuItem(
+                            onTap: () async {
+                              if (subscription != "Premium") {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const PaymentPage()));
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const PaymentPage()));
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          content: const Text(
+                                            'No need to buy points. You are already in Premium Subscription',
+                                            style: TextStyle(
+                                                fontFamily: 'QRegular'),
                                           ),
-                                        ],
-                                      ));
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                        content: const Text(
-                                          'No need to buy points. You are already in Premium Subscription',
-                                          style:
-                                              TextStyle(fontFamily: 'QRegular'),
-                                        ),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(true),
-                                            child: const Text(
-                                              'Close',
-                                              style: TextStyle(
-                                                  fontFamily: 'QRegular',
-                                                  fontWeight: FontWeight.bold),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .pop(true),
+                                              child: const Text(
+                                                'Close',
+                                                style: TextStyle(
+                                                    fontFamily: 'QRegular',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                             ),
+                                          ],
+                                        ));
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          content: const Text(
+                                            'No need to buy points. You are already in Premium Subscription',
+                                            style: TextStyle(
+                                                fontFamily: 'QRegular'),
                                           ),
-                                        ],
-                                      ));
-                            }
-                          },
-                          child: TextBold(
-                              text: 'Purchase Points',
-                              fontSize: 14,
-                              color: Colors.black),
-                          value: 1,
-                        ),
-                        PopupMenuItem(
-                          onTap: () async {
-                            if (subscription != "Premium") {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PaymentPagePremium()));
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PaymentPagePremium()));
-                            } else {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                        content: const Text(
-                                          'You are already in Premium Subscription',
-                                          style:
-                                              TextStyle(fontFamily: 'QRegular'),
-                                        ),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(true),
-                                            child: const Text(
-                                              'Close',
-                                              style: TextStyle(
-                                                  fontFamily: 'QRegular',
-                                                  fontWeight: FontWeight.bold),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .pop(true),
+                                              child: const Text(
+                                                'Close',
+                                                style: TextStyle(
+                                                    fontFamily: 'QRegular',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                             ),
+                                          ],
+                                        ));
+                              }
+                            },
+                            child: TextBold(
+                                text: 'Purchase Points',
+                                fontSize: 14,
+                                color: Colors.black),
+                            value: 1,
+                          ),
+                          PopupMenuItem(
+                            onTap: () async {
+                              if (subscription != "Premium") {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PaymentPagePremium()));
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PaymentPagePremium()));
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          content: const Text(
+                                            'You are already in Premium Subscription',
+                                            style: TextStyle(
+                                                fontFamily: 'QRegular'),
                                           ),
-                                        ],
-                                      ));
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                        content: const Text(
-                                          'You are already in Premium Subscription',
-                                          style:
-                                              TextStyle(fontFamily: 'QRegular'),
-                                        ),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(true),
-                                            child: const Text(
-                                              'Close',
-                                              style: TextStyle(
-                                                  fontFamily: 'QRegular',
-                                                  fontWeight: FontWeight.bold),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .pop(true),
+                                              child: const Text(
+                                                'Close',
+                                                style: TextStyle(
+                                                    fontFamily: 'QRegular',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                             ),
+                                          ],
+                                        ));
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          content: const Text(
+                                            'You are already in Premium Subscription',
+                                            style: TextStyle(
+                                                fontFamily: 'QRegular'),
                                           ),
-                                        ],
-                                      ));
-                            }
-                          },
-                          child: TextBold(
-                              text: 'Go Premium',
-                              fontSize: 14,
-                              color: Colors.black),
-                          value: 2,
-                        ),
-                      ])
-              : const SizedBox(),
-        ],
-      ),
-      body: IndexedStack(
-        index: selectedIndex,
-        children: const [
-          HomeTab(),
-          SearchBarWidget(),
-          NotifTab(),
-          ProfileTab(),
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-        child: FloatingNavbar(
-          borderRadius: 10,
-          fontSize: 8,
-          backgroundColor: Colors.blue,
-          selectedItemColor: Colors.black,
-          onTap: (int val) {
-            setState(() {
-              selectedIndex = val;
-            });
-          },
-          currentIndex: selectedIndex,
-          items: [
-            FloatingNavbarItem(icon: Icons.home, title: 'Home'),
-            FloatingNavbarItem(icon: Icons.search, title: 'Search'),
-            FloatingNavbarItem(
-                icon: Icons.notifications_rounded, title: 'Notifications'),
-            FloatingNavbarItem(icon: Icons.person, title: 'Profile'),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .pop(true),
+                                              child: const Text(
+                                                'Close',
+                                                style: TextStyle(
+                                                    fontFamily: 'QRegular',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ],
+                                        ));
+                              }
+                            },
+                            child: TextBold(
+                                text: 'Go Premium',
+                                fontSize: 14,
+                                color: Colors.black),
+                            value: 2,
+                          ),
+                        ])
+                : const SizedBox(),
           ],
         ),
-      ),
-      floatingActionButton: selectedIndex == 1
-          ? const SizedBox()
-          : selectedIndex == 2
-              ? const SizedBox()
-              : FloatingActionButton(
-                  backgroundColor: Colors.blue,
-                  child: const Icon(
-                    Icons.edit,
-                    color: Colors.white,
+        body: IndexedStack(
+          index: selectedIndex,
+          children: const [
+            HomeTab(),
+            SearchBarWidget(),
+            NotifTab(),
+            ProfileTab(),
+          ],
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: FloatingNavbar(
+            borderRadius: 10,
+            fontSize: 8,
+            backgroundColor: Colors.blue,
+            selectedItemColor: Colors.black,
+            onTap: (int val) {
+              setState(() {
+                selectedIndex = val;
+              });
+            },
+            currentIndex: selectedIndex,
+            items: [
+              FloatingNavbarItem(icon: Icons.home, title: 'Home'),
+              FloatingNavbarItem(icon: Icons.search, title: 'Search'),
+              FloatingNavbarItem(
+                  icon: Icons.notifications_rounded, title: 'Notifications'),
+              FloatingNavbarItem(icon: Icons.person, title: 'Profile'),
+            ],
+          ),
+        ),
+        floatingActionButton: selectedIndex == 1
+            ? const SizedBox()
+            : selectedIndex == 2
+                ? const SizedBox()
+                : FloatingActionButton(
+                    backgroundColor: Colors.blue,
+                    child: const Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const PostStatus(),
+                        ),
+                      );
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const PostStatus(),
-                      ),
-                    );
-                  },
-                ),
+      ),
     );
   }
 }

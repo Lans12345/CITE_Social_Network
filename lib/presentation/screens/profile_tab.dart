@@ -131,6 +131,12 @@ class _ProfileTabState extends State<ProfileTab> {
           'coverPhoto': imageURL,
         });
 
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Refresh to see changes'),
+          ),
+        );
+
         Navigator.of(context).pop();
       } on firebase_storage.FirebaseException catch (error) {
         if (kDebugMode) {
@@ -199,6 +205,12 @@ class _ProfileTabState extends State<ProfileTab> {
           'profilePicture': imageURL,
         });
 
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Refresh to see changes'),
+          ),
+        );
+
         Navigator.of(context).pop();
       } on firebase_storage.FirebaseException catch (error) {
         if (kDebugMode) {
@@ -234,6 +246,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                     ListTile(
                                       trailing: const Icon(Icons.upload),
                                       onTap: () {
+                                        Navigator.of(context).pop();
                                         uploadPicture('gallery');
                                       },
                                       leading: TextRegular(
@@ -266,6 +279,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                     ListTile(
                                       trailing: const Icon(Icons.upload),
                                       onTap: () {
+                                        Navigator.of(context).pop();
                                         uploadPicture('gallery');
                                       },
                                       leading: TextRegular(
@@ -334,6 +348,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                                 trailing:
                                                     const Icon(Icons.upload),
                                                 onTap: () {
+                                                  Navigator.of(context).pop();
                                                   uploadPicture1('gallery');
                                                 },
                                                 leading: TextRegular(
@@ -368,6 +383,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                                 trailing:
                                                     const Icon(Icons.upload),
                                                 onTap: () {
+                                                  Navigator.of(context).pop();
                                                   uploadPicture1('gallery');
                                                 },
                                                 leading: TextRegular(

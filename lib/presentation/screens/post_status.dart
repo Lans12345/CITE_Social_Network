@@ -267,7 +267,45 @@ class _PostStatusState extends State<PostStatus> {
                                       ),
                                     ],
                                   ));
-                        } else {}
+                        } else {
+                          createPost(
+                              name,
+                              profilePicture,
+                              email,
+                              status,
+                              imageURL,
+                              dt.month.toString() +
+                                  '/' +
+                                  dt.day.toString() +
+                                  '/' +
+                                  dt.year.toString(),
+                              dt.hour.toString() + ':' + dt.minute.toString());
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => AlertDialog(
+                                    content: const Text(
+                                      'Status Posted Succesfully!',
+                                      style: TextStyle(fontFamily: 'QRegular'),
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomePage()));
+                                        },
+                                        child: const Text(
+                                          'Continue',
+                                          style: TextStyle(
+                                              fontFamily: 'QRegular',
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ],
+                                  ));
+                        }
                       }
                     },
             ),
