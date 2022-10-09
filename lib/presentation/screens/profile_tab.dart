@@ -423,29 +423,39 @@ class _ProfileTabState extends State<ProfileTab> {
                         children: [
                           Row(
                             children: [
-                              const Icon(Icons.star),
+                              Icon(Icons.star,
+                                  color: subscription == 'Premium'
+                                      ? Colors.amber
+                                      : Colors.grey),
                               const SizedBox(
                                 width: 5,
                               ),
                               TextBold(
                                   text: subscription,
                                   fontSize: 14,
-                                  color: Colors.grey),
+                                  color: subscription == 'Premium'
+                                      ? Colors.amber
+                                      : Colors.grey),
                             ],
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Icon(Icons.confirmation_num_rounded),
-                              const SizedBox(
-                                width: 25,
-                              ),
-                              TextBold(
-                                  text: "$points",
-                                  fontSize: 14,
-                                  color: Colors.grey),
-                            ],
-                          ),
+                          subscription == "Premium"
+                              ? const SizedBox()
+                              : Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Icon(Icons.confirmation_num_rounded),
+                                    const SizedBox(
+                                      width: 25,
+                                    ),
+                                    TextBold(
+                                        text: "$points",
+                                        fontSize: 14,
+                                        color: points == 0
+                                            ? Colors.red
+                                            : Colors.grey),
+                                  ],
+                                ),
                         ],
                       ),
                     ),

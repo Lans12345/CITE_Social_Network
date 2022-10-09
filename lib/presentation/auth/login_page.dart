@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:monetization_system/presentation/auth/signup_page.dart';
+import 'package:monetization_system/presentation/pages/admin/admin_home.dart';
 import 'package:monetization_system/presentation/pages/home_page.dart';
 import 'package:monetization_system/presentation/widgets/button_widget.dart';
 import 'package:monetization_system/presentation/widgets/text_widget.dart';
@@ -163,34 +164,41 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ButtonWidget(
                       onPressed: () async {
-                        try {
-                          await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                                  email: email, password: password);
-                          box.write('email', email);
-
+                        if (email == "admin123@gmail.com" &&
+                            password == "admin123") {
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => HomePage()));
-                        } catch (e) {
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    content: TextRegular(
-                                        text: "$e",
-                                        color: Colors.black,
-                                        fontSize: 12),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(true),
-                                        child: TextBold(
-                                            text: 'Close',
-                                            color: Colors.black,
-                                            fontSize: 12),
-                                      ),
-                                    ],
-                                  ));
+                                  builder: (context) => const AdminHome()));
+                        } else {
+                          try {
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: email, password: password);
+                            box.write('email', email);
+
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
+                          } catch (e) {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      content: TextRegular(
+                                          text: "$e",
+                                          color: Colors.black,
+                                          fontSize: 12),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(true),
+                                          child: TextBold(
+                                              text: 'Close',
+                                              color: Colors.black,
+                                              fontSize: 12),
+                                        ),
+                                      ],
+                                    ));
+                          }
                         }
                       },
                       text: 'Log in'),

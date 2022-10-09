@@ -303,52 +303,6 @@ class _ProfileTabState extends State<SearchedProfilePage> {
                                                 text: data.docs[index]['date'],
                                                 fontSize: 12,
                                                 color: Colors.grey),
-                                            IconButton(
-                                              onPressed: () {
-                                                showModalBottomSheet(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return SizedBox(
-                                                        height: 100,
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            ListTile(
-                                                              trailing:
-                                                                  const Icon(Icons
-                                                                      .delete),
-                                                              onTap: () {
-                                                                FirebaseFirestore
-                                                                    .instance
-                                                                    .collection(
-                                                                        'Posts')
-                                                                    .doc(data
-                                                                        .docs[
-                                                                            index]
-                                                                        .id)
-                                                                    .delete();
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                              leading: TextRegular(
-                                                                  text:
-                                                                      'Delete Post',
-                                                                  fontSize: 16,
-                                                                  color: Colors
-                                                                      .black),
-                                                            ),
-                                                            const Divider(),
-                                                          ],
-                                                        ),
-                                                      );
-                                                    });
-                                              },
-                                              icon: const Icon(
-                                                  Icons.more_vert_outlined),
-                                            ),
                                           ],
                                         ),
                                         TextBold(
@@ -374,7 +328,9 @@ class _ProfileTabState extends State<SearchedProfilePage> {
                                   linkColor: Colors.blue,
                                 ),
                               ),
-                              Image.network(data.docs[index]['imageURL']),
+                              data.docs[index]['imageURL'] != ""
+                                  ? Image.network(data.docs[index]['imageURL'])
+                                  : const SizedBox(),
                             ],
                           ),
                         );

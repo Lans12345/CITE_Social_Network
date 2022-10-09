@@ -113,6 +113,7 @@ class _PostStatusState extends State<PostStatus> {
 
   late String id = '';
   late int points = 0;
+  late String subscription = '';
 
   getData() async {
     // Use provider
@@ -131,6 +132,7 @@ class _PostStatusState extends State<PostStatus> {
           email = data['email'];
           id = data['id'];
           points = data['points'];
+          subscription = data['subscription'];
         }
       });
     }
@@ -166,66 +168,8 @@ class _PostStatusState extends State<PostStatus> {
               onPressed: hasStatus != true
                   ? null
                   : () {
-                      if (points < 5) {
-                        showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) => AlertDialog(
-                                  title: const Text(
-                                    'Cannot Procceed',
-                                    style: TextStyle(fontFamily: 'QBold'),
-                                  ),
-                                  content: const Text(
-                                    'Points not enough to make a post',
-                                    style: TextStyle(fontFamily: 'QRegular'),
-                                  ),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const PaymentPage()));
-                                      },
-                                      child: const Text(
-                                        'Purchase Points',
-                                        style: TextStyle(
-                                            fontFamily: 'QRegular',
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    FlatButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const PaymentPagePremium()));
-                                      },
-                                      child: const Text(
-                                        'Go Premium',
-                                        style: TextStyle(
-                                            fontFamily: 'QRegular',
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    FlatButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomePage()));
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text(
-                                        'Close',
-                                        style: TextStyle(
-                                            fontFamily: 'QRegular',
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ));
-                      } else {
+                      if (subscription == 'Premium') {
+                        print("prems");
                         createPost(
                             name,
                             profilePicture,
@@ -249,12 +193,6 @@ class _PostStatusState extends State<PostStatus> {
                                   actions: <Widget>[
                                     FlatButton(
                                       onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection('Users')
-                                            .doc(id)
-                                            .update({
-                                          'points': points - 5,
-                                        });
                                         Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                                 builder: (context) =>
@@ -269,6 +207,67 @@ class _PostStatusState extends State<PostStatus> {
                                     ),
                                   ],
                                 ));
+                      } else {
+                        if (points < 5) {
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => AlertDialog(
+                                    title: const Text(
+                                      'Cannot Procceed',
+                                      style: TextStyle(fontFamily: 'QBold'),
+                                    ),
+                                    content: const Text(
+                                      'Points not enough to make a post',
+                                      style: TextStyle(fontFamily: 'QRegular'),
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const PaymentPage()));
+                                        },
+                                        child: const Text(
+                                          'Purchase Points',
+                                          style: TextStyle(
+                                              fontFamily: 'QRegular',
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const PaymentPagePremium()));
+                                        },
+                                        child: const Text(
+                                          'Go Premium',
+                                          style: TextStyle(
+                                              fontFamily: 'QRegular',
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomePage()));
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text(
+                                          'Close',
+                                          style: TextStyle(
+                                              fontFamily: 'QRegular',
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ],
+                                  ));
+                        } else {}
                       }
                     },
             ),
