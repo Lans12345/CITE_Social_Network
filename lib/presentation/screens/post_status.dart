@@ -7,6 +7,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:monetization_system/data/services/cloud_functions/create_post.dart';
 import 'package:monetization_system/presentation/pages/home_page.dart';
+import 'package:monetization_system/presentation/pages/payment_page.dart';
+import 'package:monetization_system/presentation/pages/payment_page_premium.dart';
 import 'package:monetization_system/presentation/widgets/text_widget.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
@@ -109,6 +111,9 @@ class _PostStatusState extends State<PostStatus> {
   late String profilePicture = '';
   late String email = '';
 
+  late String id = '';
+  late int points = 0;
+
   getData() async {
     // Use provider
     var collection = FirebaseFirestore.instance
@@ -124,6 +129,8 @@ class _PostStatusState extends State<PostStatus> {
 
           profilePicture = data['profilePicture'];
           email = data['email'];
+          id = data['id'];
+          points = data['points'];
         }
       });
     }
@@ -159,43 +166,110 @@ class _PostStatusState extends State<PostStatus> {
               onPressed: hasStatus != true
                   ? null
                   : () {
-                      createPost(
-                          name,
-                          profilePicture,
-                          email,
-                          status,
-                          imageURL,
-                          dt.month.toString() +
-                              '/' +
-                              dt.day.toString() +
-                              '/' +
-                              dt.year.toString(),
-                          dt.hour.toString() + ':' + dt.minute.toString());
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) => AlertDialog(
-                                content: const Text(
-                                  'Status Posted Succesfully!',
-                                  style: TextStyle(fontFamily: 'QRegular'),
-                                ),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomePage()));
-                                    },
-                                    child: const Text(
-                                      'Continue',
-                                      style: TextStyle(
-                                          fontFamily: 'QRegular',
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                      if (points < 5) {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => AlertDialog(
+                                  title: const Text(
+                                    'Cannot Procceed',
+                                    style: TextStyle(fontFamily: 'QBold'),
                                   ),
-                                ],
-                              ));
+                                  content: const Text(
+                                    'Points not enough to make a post',
+                                    style: TextStyle(fontFamily: 'QRegular'),
+                                  ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const PaymentPage()));
+                                      },
+                                      child: const Text(
+                                        'Purchase Points',
+                                        style: TextStyle(
+                                            fontFamily: 'QRegular',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const PaymentPagePremium()));
+                                      },
+                                      child: const Text(
+                                        'Go Premium',
+                                        style: TextStyle(
+                                            fontFamily: 'QRegular',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomePage()));
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        'Close',
+                                        style: TextStyle(
+                                            fontFamily: 'QRegular',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ));
+                      } else {
+                        createPost(
+                            name,
+                            profilePicture,
+                            email,
+                            status,
+                            imageURL,
+                            dt.month.toString() +
+                                '/' +
+                                dt.day.toString() +
+                                '/' +
+                                dt.year.toString(),
+                            dt.hour.toString() + ':' + dt.minute.toString());
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => AlertDialog(
+                                  content: const Text(
+                                    'Status Posted Succesfully!',
+                                    style: TextStyle(fontFamily: 'QRegular'),
+                                  ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      onPressed: () {
+                                        FirebaseFirestore.instance
+                                            .collection('Users')
+                                            .doc(id)
+                                            .update({
+                                          'points': points - 5,
+                                        });
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomePage()));
+                                      },
+                                      child: const Text(
+                                        'Continue',
+                                        style: TextStyle(
+                                            fontFamily: 'QRegular',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ));
+                      }
                     },
             ),
           )

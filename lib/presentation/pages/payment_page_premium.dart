@@ -6,14 +6,14 @@ import 'package:monetization_system/data/services/cloud_functions/pay_points.dar
 import 'package:monetization_system/presentation/widgets/text_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class PaymentPage extends StatefulWidget {
-  const PaymentPage({Key? key}) : super(key: key);
+class PaymentPagePremium extends StatefulWidget {
+  const PaymentPagePremium({Key? key}) : super(key: key);
 
   @override
-  State<PaymentPage> createState() => _PaymentPageState();
+  State<PaymentPagePremium> createState() => _PaymentPageState();
 }
 
-class _PaymentPageState extends State<PaymentPage> {
+class _PaymentPageState extends State<PaymentPagePremium> {
   final box = GetStorage();
 
   @override
@@ -67,7 +67,7 @@ class _PaymentPageState extends State<PaymentPage> {
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
         title: TextRegular(
-            text: 'Purchase Points', fontSize: 18, color: Colors.black),
+            text: 'Premium Account', fontSize: 18, color: Colors.black),
         centerTitle: true,
       ),
       body: Padding(
@@ -81,7 +81,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 height: 20,
               ),
               TextBold(
-                  text: 'Benefits of Purchasing Points',
+                  text: 'Premium Account Benefits',
                   fontSize: 24,
                   color: Colors.black),
               const SizedBox(
@@ -93,9 +93,10 @@ class _PaymentPageState extends State<PaymentPage> {
                   color: Colors.amber,
                 ),
                 title: TextRegular(
-                    text: '+100 Points', fontSize: 18, color: Colors.black),
+                    text: 'Ulimited Points', fontSize: 18, color: Colors.black),
                 subtitle: TextRegular(
-                    text: 'You will earn extra points. You can post more often',
+                    text:
+                        'You will acquire infinity points. You can post as many as you want',
                     fontSize: 12,
                     color: Colors.grey),
               ),
@@ -115,9 +116,11 @@ class _PaymentPageState extends State<PaymentPage> {
                   color: Colors.green,
                 ),
                 title: TextRegular(
-                    text: '99.00php', fontSize: 18, color: Colors.black),
+                    text: '999.00php', fontSize: 18, color: Colors.black),
                 subtitle: TextRegular(
-                    text: 'Subscription Fee', fontSize: 12, color: Colors.grey),
+                    text: 'One time Subscription Fee',
+                    fontSize: 12,
+                    color: Colors.grey),
               ),
               const SizedBox(
                 height: 10,
@@ -187,7 +190,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     borderRadius: BorderRadius.circular(100),
                   ),
                   onPressed: () async {
-                    payPoints(name, profilePicture, box.read('email'),
+                    payPremium(name, profilePicture, box.read('email'),
                         subscription, points);
                     String gcash =
                         'play.google.com/store/apps/details?id=com.globe.gcash.android';

@@ -606,7 +606,9 @@ class _ProfileTabState extends State<ProfileTab> {
                                 linkColor: Colors.blue,
                               ),
                             ),
-                            Image.network(data.docs[index]['imageURL']),
+                            data.docs[index]['imageURL'] != ""
+                                ? Image.network(data.docs[index]['imageURL'])
+                                : const SizedBox(),
                           ],
                         ),
                       );

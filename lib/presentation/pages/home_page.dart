@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:monetization_system/presentation/auth/login_page.dart';
 import 'package:monetization_system/presentation/pages/payment_page.dart';
+import 'package:monetization_system/presentation/pages/payment_page_premium.dart';
 import 'package:monetization_system/presentation/screens/home_tab.dart';
 import 'package:monetization_system/presentation/screens/notif_tab.dart';
 import 'package:monetization_system/presentation/screens/post_status.dart';
@@ -142,6 +143,21 @@ class _HomePageState extends State<HomePage> {
                               fontSize: 14,
                               color: Colors.black),
                           value: 1,
+                        ),
+                        PopupMenuItem(
+                          onTap: () async {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const PaymentPagePremium()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const PaymentPagePremium()));
+                          },
+                          child: TextBold(
+                              text: 'Go Premium',
+                              fontSize: 14,
+                              color: Colors.black),
+                          value: 2,
                         ),
                       ])
               : const SizedBox(),
