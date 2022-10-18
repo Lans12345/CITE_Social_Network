@@ -12,6 +12,7 @@ Future createPost(String name, String profilePicture, String email,
     'imageURL': imageURL,
     'date': date,
     'time': time,
+    'likes': 0,
     'id': docUser.id,
   };
 

@@ -638,6 +638,143 @@ class _ProfileTabState extends State<ProfileTab> {
                             data.docs[index]['imageURL'] != ""
                                 ? Image.network(data.docs[index]['imageURL'])
                                 : const SizedBox(),
+                            ListTile(
+                              leading: SizedBox(
+                                width: 100,
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.thumb_up_alt_rounded),
+                                    const SizedBox(width: 10),
+                                    TextRegular(
+                                        text: data.docs[index]['likes']
+                                            .toString(),
+                                        fontSize: 18,
+                                        color: Colors.grey),
+                                  ],
+                                ),
+                              ),
+                              trailing: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return SingleChildScrollView(
+                                          reverse: true,
+                                          child: AlertDialog(
+                                            title: SizedBox(
+                                              height: 500,
+                                              child: StreamBuilder<
+                                                      QuerySnapshot>(
+                                                  stream: FirebaseFirestore
+                                                      .instance
+                                                      .collection('Comments')
+                                                      .where('commentId',
+                                                          isEqualTo:
+                                                              data.docs[index]
+                                                                  ['id'])
+                                                      .snapshots(),
+                                                  builder:
+                                                      (BuildContext context,
+                                                          AsyncSnapshot<
+                                                                  QuerySnapshot>
+                                                              snapshot) {
+                                                    if (snapshot.hasError) {
+                                                      print(snapshot.error);
+                                                      return const Center(
+                                                          child: Text('Error'));
+                                                    }
+                                                    if (snapshot
+                                                            .connectionState ==
+                                                        ConnectionState
+                                                            .waiting) {
+                                                      print('waiting');
+                                                      return const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 50),
+                                                        child: Center(
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                          color: Colors.black,
+                                                        )),
+                                                      );
+                                                    }
+
+                                                    final data =
+                                                        snapshot.requireData;
+                                                    return ListView.separated(
+                                                        itemCount: snapshot
+                                                                .data?.size ??
+                                                            0,
+                                                        separatorBuilder:
+                                                            (context, index) {
+                                                          return const Divider();
+                                                        },
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return ListTile(
+                                                            subtitle:
+                                                                TextRegular(
+                                                              text: data.docs[
+                                                                      index]
+                                                                  ['comment'],
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.grey,
+                                                            ),
+                                                            trailing: TextRegular(
+                                                                text: data.docs[
+                                                                        index]
+                                                                    ['time'],
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
+                                                            title: TextBold(
+                                                                text: data.docs[
+                                                                        index]
+                                                                    ['name'],
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
+                                                            leading:
+                                                                CircleAvatar(
+                                                              maxRadius: 20,
+                                                              minRadius: 20,
+                                                              backgroundImage:
+                                                                  NetworkImage(data
+                                                                              .docs[
+                                                                          index]
+                                                                      [
+                                                                      'profilePicture']),
+                                                            ),
+                                                          );
+                                                        });
+                                                  }),
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                },
+                                child: SizedBox(
+                                  width: 100,
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.comment,
+                                        color: Colors.grey,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      TextRegular(
+                                          text: 'Comments',
+                                          fontSize: 15,
+                                          color: Colors.grey),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       );
